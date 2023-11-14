@@ -95,11 +95,17 @@
     <Compile Include="dsUtils.cs" />
     <Compile Include="EbaAktar.cs" />
     <Compile Include="IntegrationCon.cs" />
+    <Compile Include="Operation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\EbaClientWcf\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Service References\SapServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -117,6 +123,89 @@
     <Content Include="dll\OtosanData.dll" />
     <Content Include="dll\OtosanDBHelper.dll" />
     <Content Include="dll\eBASystemAPI.dll" />
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.AllDelegation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.Announcement.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.ArrayOfString.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.Attachments.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.ConnectionInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.ContProcessOutParameters.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.DetailedRequestEvents.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.DocumentView.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.eBARequestCounts.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.MessageListItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.NodeItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.Process.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.ProcessAttributes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.ProcessHistory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.ProcessRequestDocument.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.ProcessRequests.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.Project.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.PublishResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.UserInformation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.UserRequestCountsProperties.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.WorkflowDocument.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.WorkflowProceses.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.WorkflowProcess.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Eba5Dal.EbaClientWcf.WSPosition.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EbaClientWcf\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\EbaClientWcf\configuration.svcinfo" />
+    <None Include="Service References\EbaClientWcf\configuration91.svcinfo" />
+    <None Include="Service References\EbaClientWcf\ebawsapi.disco" />
+    <None Include="Service References\EbaClientWcf\ebawsapi.wsdl" />
     <None Include="Service References\SapServiceReference\Eba5Dal.SapServiceReference.Z_HPA_EBA_ENTEGRASYONResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -142,6 +231,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\EbaClientWcf\" />
     <WCFMetadataStorage Include="Service References\SapServiceReference\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

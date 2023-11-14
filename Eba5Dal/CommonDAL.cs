@@ -2854,5 +2854,103 @@ namespace Eba5Dal
 
 
         }
+
+
+
+        public DataTable Get_UYDGDAContinueProcess_TrigRecords()
+        {
+            OracleCommand oCmd = new OracleCommand();
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.CommandText = "EBAWORKFLOW5.PCK_EBA_UYDGDA.PRC_GET_OTOMATIK_ONAY";
+
+            oCmd.Parameters.Add(new OracleParameter("RC_SELECT", OracleType.Cursor));
+            oCmd.Parameters["RC_SELECT"].Direction = ParameterDirection.Output;
+
+            return dal.ExecuteDataTable(oCmd);
+        }
+        public DataTable Get_UYDGDAREQID_TrigRecords(string EBA_ID)
+        {
+            OracleCommand oCmd = new OracleCommand();
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.CommandText = "EBAWORKFLOW5.PCK_EBA_UYDGDA.PRC_GET_REQUESTID";
+
+            oCmd.Parameters.Add(new OracleParameter("P_EBA_ID", OracleType.VarChar));
+            oCmd.Parameters["P_EBA_ID"].Value = EBA_ID;
+
+            oCmd.Parameters.Add(new OracleParameter("RC_SELECT", OracleType.Cursor));
+            oCmd.Parameters["RC_SELECT"].Direction = ParameterDirection.Output;
+
+            return dal.ExecuteDataTable(oCmd);
+        }
+
+        public DataTable Get_UYDGDAFORMKONTROL_TrigRecords(string EBA_ID)
+        {
+            OracleCommand oCmd = new OracleCommand();
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.CommandText = "EBAWORKFLOW5.PCK_EBA_UYDGDA.PRC_GET_FORM_DURUM_KONTROLU";
+
+            oCmd.Parameters.Add(new OracleParameter("P_EBA_ID", OracleType.VarChar));
+            oCmd.Parameters["P_EBA_ID"].Value = EBA_ID;
+
+            oCmd.Parameters.Add(new OracleParameter("RC_SELECT", OracleType.Cursor));
+            oCmd.Parameters["RC_SELECT"].Direction = ParameterDirection.Output;
+
+            return dal.ExecuteDataTable(oCmd);
+        }
+
+
+
+        public DataTable Get_RMIS_TrigRecords()
+        {
+            OracleCommand oCmd = new OracleCommand();
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.CommandText = "EBAWORKFLOW5.PCK_EBA_RMIS.PRC_GET_RMIS_START";
+
+            oCmd.Parameters.Add(new OracleParameter("RC_SELECT", OracleType.Cursor));
+            oCmd.Parameters["RC_SELECT"].Direction = ParameterDirection.Output;
+
+            return dal.ExecuteDataTable(oCmd);
+        }
+
+        public void Set_RMIS_FORM_Update(int P_UNIQUE_ID, string P_PROCESS_ID)
+        {
+            OracleCommand oCmd = new OracleCommand();
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.CommandText = "EBAWORKFLOW5.PCK_EBA_RMIS.PRC_RMIS_FORM_UPDATE";
+
+            oCmd.Parameters.Add(new OracleParameter("P_UNIQUE_ID", OracleType.Number));
+            oCmd.Parameters["P_UNIQUE_ID"].Value = P_UNIQUE_ID;
+
+            oCmd.Parameters.Add(new OracleParameter("P_PROCESS_ID", OracleType.VarChar));
+            oCmd.Parameters["P_PROCESS_ID"].Value = P_PROCESS_ID;
+
+
+            dal.ExecuteNonQuery(oCmd);
+        }
+
+        public void Set_RMIS_STATU_Update(int P_UNIQ_ID, string P_EBA_ID, string P_STATU, string P_USER)
+        {
+            OracleCommand oCmd = new OracleCommand();
+            oCmd.CommandType = CommandType.StoredProcedure;
+            oCmd.CommandText = "EBAWORKFLOW5.PCK_EBA_SPIDS_YPKTOF.PRC_SPIDS_YPKTOF_STATU_UPDATE";
+
+            oCmd.Parameters.Add(new OracleParameter("P_UNIQ_ID", OracleType.Number));
+            oCmd.Parameters["P_UNIQ_ID"].Value = P_UNIQ_ID;
+
+            oCmd.Parameters.Add(new OracleParameter("P_EBA_ID", OracleType.VarChar));
+            oCmd.Parameters["P_EBA_ID"].Value = P_EBA_ID;
+
+            oCmd.Parameters.Add(new OracleParameter("P_STATUS", OracleType.VarChar));
+            oCmd.Parameters["P_STATUS"].Value = P_STATU;
+
+            oCmd.Parameters.Add(new OracleParameter("P_USER", OracleType.VarChar));
+            oCmd.Parameters["P_USER"].Value = P_USER;
+
+           
+
+            dal.ExecuteNonQuery(oCmd);
+        }
+
+
     }
 }

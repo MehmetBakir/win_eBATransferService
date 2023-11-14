@@ -1,13 +1,17 @@
-﻿using eBAPI.Connection;
+﻿using Eba5Dal.EbaClientWcf;
+using eBAPI.Connection;
 using eBAPI.Workflow;
 using eBASystemAPI;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using WorkflowProcess = eBAPI.Workflow.WorkflowProcess;
+using WorkflowDocument = eBAPI.Workflow.WorkflowDocument;
 
 namespace Eba5Dal
 {
-    public enum enmEbaConnType { eachTicket = 0, blockTicket = 1 }; 
+    public enum enmEbaConnType { eachTicket = 0, blockTicket = 1 };
 
     public class EbaAktar
     {
@@ -565,7 +569,7 @@ namespace Eba5Dal
 
                             WorkflowManager mgr = con.WorkflowManager;
                             WorkflowProcess proccess = mgr.CreateProcess("MUFTON");
-                            
+
                             proccess.Parameters.Add("TG_GID", dr["ID"].ToString());
                             proccess.Parameters.Update();
                             proccess.Start();
@@ -3037,7 +3041,7 @@ namespace Eba5Dal
                             con.Open();
                             con.Impersonate(dr["CD_CREATOR"].ToString(), ImpersonationStatusType.Hidden);
                             WorkflowManager mgr = con.WorkflowManager;
-                            WorkflowProcess proccess = mgr.CreateProcess(FormName); 
+                            WorkflowProcess proccess = mgr.CreateProcess(FormName);
                             proccess.Parameters.Add("V_AKISBASLATAN", dr["CD_CREATOR"].ToString());
                             proccess.Parameters.Add("V_LIFOMATIK", dr["ID_VALOR"].ToString());
                             proccess.Parameters.Update();
@@ -3069,10 +3073,13 @@ namespace Eba5Dal
                     string PrID = "";
                     try
                     {
-                        dtreq = dal.Get_N_VADUZTREQID_TrigRecords(dr["ID_VALOR"].ToString()); if (dal.GetServisErrorControl(dr["ID_VALOR"].ToString(), FormName) == true && dtreq.Rows.Count > 0)
+                        dtreq = dal.Get_N_VADUZTREQID_TrigRecords(dr["ID_VALOR"].ToString());
+                        if (dal.GetServisErrorControl(dr["ID_VALOR"].ToString(), FormName) == true && dtreq.Rows.Count > 0)
                         {
-                            #region SurecDevamEttir                             string pauserName = "AkisDurdurucu1";                             con = new eBAConnection();
-                            con.Server = StaticVar.ServerName;
+                            #region SurecDevamEttir                            
+                            string pauserName = "AkisDurdurucu1";
+                            con = new eBAConnection();
+                            con.Server = StaticVar.ServerName;
                             con.UserID = StaticVar.UserName;
                             con.Password = StaticVar.PassWord;
                             con.CommandTimeout = 500;
@@ -4090,7 +4097,7 @@ namespace Eba5Dal
                             log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı pid: " + PrID);
                             dal.Set_NCS_ITHP_FORM_Update((dr["SOS_ID"].ToString()), PrID);
                             log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı form update başarılı.");
-                          
+
                             #endregion
                         }
                     }
@@ -4310,11 +4317,11 @@ namespace Eba5Dal
             }
         }
 
-            public void Trig_N_GGMGFBaslat(string FormName)
-            {
-                CommonDAL dal = new CommonDAL();
-                DataTable dt = dal.Get_N_GGMGF_TrigRecords();
-                
+        public void Trig_N_GGMGFBaslat(string FormName)
+        {
+            CommonDAL dal = new CommonDAL();
+            DataTable dt = dal.Get_N_GGMGF_TrigRecords();
+
 
             log.WriteLine("DEBUG", string.Format("[{0}]Get_N_GGMGF_TrigRecords SP to EBA5 row count: {1}", FormName, dt.Rows.Count));
 
@@ -4328,10 +4335,10 @@ namespace Eba5Dal
 
                     try
                     {
-                       // log.WriteLine("DEBUG", string.Format("[{0}]Get_N_GGMGF_TrigRecords SP to EBA5 row count: {1},{2}", FormName, dt.Rows.Count, dr["SQ_ID"].ToString()));
+                        // log.WriteLine("DEBUG", string.Format("[{0}]Get_N_GGMGF_TrigRecords SP to EBA5 row count: {1},{2}", FormName, dt.Rows.Count, dr["SQ_ID"].ToString()));
                         if (dal.GetServisErrorControl(dr["SQ_ID"].ToString(), FormName) == true)
                         {
-                           // log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak");
+                            // log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak");
                             #region Kayıt Başlat
                             con = new eBAConnection();
                             con.Server = StaticVar.ServerName;
@@ -4339,30 +4346,31 @@ namespace Eba5Dal
                             con.Password = StaticVar.PassWord;
                             con.CommandTimeout = 500;
                             con.Open();
-                       
-                                                 con.Impersonate(dr["CD_CREATOR"].ToString(), ImpersonationStatusType.Hidden);
-                                                 //log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak2");
 
-                                                 WorkflowManager mng = con.WorkflowManager;
-                                                 log.WriteLine("DEBUG", "[" + FormName + "]Form başlamaya girdi.");
-                                                 WorkflowDocument doc = mng.CreateDocument("N_GGMGF", "FORM");
-                                                 log.WriteLine("DEBUG", dr["SQ_ID"].ToString() + " başladı " + doc.DocumentId.ToString());
-                                                 dal.Set_N_GGMGF_FORM_Update((dr["SQ_ID"].ToString()), doc.DocumentId.ToString());
-                                                 log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı form update başarılı.");
+                            con.Impersonate(dr["CD_CREATOR"].ToString(), ImpersonationStatusType.Hidden);
+                            //log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak2");
 
-                                                 WorkflowManager mgr = con.WorkflowManager;
-                                                 WorkflowProcess proccess = mgr.CreateProcess(FormName);
+                            WorkflowManager mng = con.WorkflowManager;
+                            log.WriteLine("DEBUG", "[" + FormName + "]Form başlamaya girdi.");
 
-                                                 proccess.Parameters.Add("V_AKISBASLATAN", dr["CD_CREATOR"].ToString());
-                                                 proccess.Parameters.Add("V_UNIQID", dr["SQ_ID"].ToString());
-                                                 proccess.Parameters.Add("V_FORMID", doc.DocumentId.ToString());
+                            WorkflowDocument doc = mng.CreateDocument("N_GGMGF", "FORM");
+                            log.WriteLine("DEBUG", dr["SQ_ID"].ToString() + " başladı " + doc.DocumentId.ToString());
+                            dal.Set_N_GGMGF_FORM_Update((dr["SQ_ID"].ToString()), doc.DocumentId.ToString());
+                            log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı form update başarılı.");
 
-                                                 //log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak3");
-                                                 proccess.Parameters.Update();
-                                                 proccess.Start();
+                            WorkflowManager mgr = con.WorkflowManager;
+                            WorkflowProcess proccess = mgr.CreateProcess(FormName);
 
-                                                 PrID = proccess.ProcessId.ToString();
-                                                 log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı pid: " + PrID);       
+                            proccess.Parameters.Add("V_AKISBASLATAN", dr["CD_CREATOR"].ToString());
+                            proccess.Parameters.Add("V_UNIQID", dr["SQ_ID"].ToString());
+                            proccess.Parameters.Add("V_FORMID", doc.DocumentId.ToString());
+
+                            //log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak3");
+                            proccess.Parameters.Update();
+                            proccess.Start();
+
+                            PrID = proccess.ProcessId.ToString();
+                            log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı pid: " + PrID);
 
                             #endregion
                         }
@@ -4384,8 +4392,8 @@ namespace Eba5Dal
             }
             else
                 log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak");
-            
-            }
+
+        }
 
         public void Trig_N_ZIYRANBaslat(string FormName)
         {
@@ -4398,8 +4406,8 @@ namespace Eba5Dal
 
             if (dt.Rows.Count > 0)
             {
-                eBAConnection con = new eBAConnection(); 
-                foreach (DataRow dr in dt.Rows) 
+                eBAConnection con = new eBAConnection();
+                foreach (DataRow dr in dt.Rows)
                 {
                     string PrID = "";
 
@@ -4407,9 +4415,9 @@ namespace Eba5Dal
                     {
                         log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak27");
 
-               
+
                         if (dal.GetServisErrorControl(dr["CD_UNIQUE_ID"].ToString(), FormName) == true)
-                        {                        
+                        {
                             log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak");
                             #region Kayıt Başlat
                             con = new eBAConnection();
@@ -4427,7 +4435,7 @@ namespace Eba5Dal
                             WorkflowDocument doc = mng.CreateDocument("N_ZIYRAN", "FORM");
                             // log.WriteLine("DEBUG", dr["CD_UNIQUE_ID"].ToString() + " başladı " + doc.DocumentId.ToString());
 
-                            log.WriteLine("DEBUG", "[" + FormName + "]V_UNIQUID.Value: "+ dr["CD_UNIQUE_ID"].ToString());
+                            log.WriteLine("DEBUG", "[" + FormName + "]V_UNIQUID.Value: " + dr["CD_UNIQUE_ID"].ToString());
 
                             dal.Set_N_ZIYRAN_FORM_Update((dr["CD_UNIQUE_ID"].ToString()), doc.DocumentId.ToString());
                             log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı form update başarılı.");
@@ -4440,12 +4448,12 @@ namespace Eba5Dal
                             proccess.Parameters.Add("V_FORMID", doc.DocumentId.ToString());
                             proccess.Parameters.Add("V_ZIYARET", dr["CD_APPROVER"].ToString());
 
-                           // log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak3");
+                            // log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak3");
                             proccess.Parameters.Update();
                             proccess.Start();
 
                             PrID = proccess.ProcessId.ToString();
-                            log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı pid: " + PrID);  
+                            log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı pid: " + PrID);
 
                             /*     WorkflowManager mgr = con.WorkflowManager;
                                  WorkflowProcess proccess = mgr.CreateProcess(FormName);
@@ -4457,8 +4465,8 @@ namespace Eba5Dal
 
                             #endregion
                         }
-                            else
-                             log.WriteLine("DEBUG", "[" + FormName + "]süreç bulunamadı");
+                        else
+                            log.WriteLine("DEBUG", "[" + FormName + "]süreç bulunamadı");
 
                     }
                     catch (Exception ex)
@@ -4477,6 +4485,149 @@ namespace Eba5Dal
                 log.WriteLine("DEBUG", "[" + FormName + "]süreç başlatılacak");
 
         }
+
+
+
+        public void Trig_UYDGDAContinueProcess(string FormName)
+        {
+
+            CommonDAL dal = new CommonDAL();
+            DataTable dt = dal.Get_UYDGDAContinueProcess_TrigRecords();
+            DataTable dtreq;
+            DataTable dtFormKontrol;
+            log.WriteLine("DEBUG", string.Format("[{0}]Get_UYDGDAContinueProcess_TrigRecords SP to EBA5 row count: {1}", FormName, dt.Rows.Count));
+            if (dt.Rows.Count > 0)
+            {
+
+                eBAConnection con = new eBAConnection();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string PrID = "";
+                    try
+                    {
+
+                        dtreq = dal.Get_UYDGDAREQID_TrigRecords(dr["PROCESSID"].ToString());
+
+                        if (dal.GetServisErrorControl(dr["PROCESSID"].ToString(), FormName) == true && dtreq.Rows.Count > 0)
+                        {
+                            #region SurecDevamEttir                             
+
+                            con = new eBAConnection();
+                            con.Server = StaticVar.ServerName;
+                            con.UserID = StaticVar.UserName;
+                            con.Password = StaticVar.PassWord;
+                            con.CommandTimeout = 500;
+                            int reqID = Convert.ToInt32(dtreq.Rows[0]["ID"].ToString());
+                            con.Open(); WorkflowManager manager = con.WorkflowManager;
+                            WorkflowProcess process = manager.GetProcess(Convert.ToInt32(dtreq.Rows[0]["PROCESSID"].ToString()));
+
+                            if (!process.Finished)
+                            {
+
+                                dtFormKontrol = dal.Get_UYDGDAFORMKONTROL_TrigRecords(dr["PROCESSID"].ToString());
+                                string devopsDurum = dtFormKontrol.Rows[0]["V_DEVOPS_DURUM"].ToString();
+                                string dbmaestroDurum = dtFormKontrol.Rows[0]["V_DBMAESTRO_DURUM"].ToString();
+
+                                //new Operation().Approve(dtreq.Rows[0]["POSITION"].ToString(), Convert.ToInt32(dtreq.Rows[0]["PROCESSID"].ToString()), reqID, 5, string.Empty);
+                                log.WriteLine("DEBUG", Convert.ToInt32(dr["PROCESSID"].ToString()) + "   -- "+ reqID);
+                                if (devopsDurum == "BASARILI" || dbmaestroDurum == "BASARILI")
+                                {
+                                    process.Continue(reqID, 5);
+                                    log.WriteLine("DEBUG", "[" + FormName + "]süreci continue process ile devam ettirildi. pid: " + PrID);
+                                    //new Operation().Approve(dr["POSITION"].ToString(), Convert.ToInt32(dr["PROCESSID"].ToString()), reqID, 5, string.Empty);
+                                }
+                                else if (devopsDurum == "BASARISIZ" || dbmaestroDurum == "BASARISIZ")
+                                {
+                                    process.Continue(reqID ,6);
+                                    log.WriteLine("DEBUG", "[" + FormName + "]süreci continue process ile reddedildi.. pid: " + PrID);
+                                    //new Operation().Approve(dr["POSITION"].ToString(), Convert.ToInt32(dr["PROCESSID"].ToString()), reqID, 6, "Hata alındığı için otomatik reddedildi.");
+                                }
+
+                            }
+
+                            #endregion
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteLine("ERROR", "[" + FormName + "] Trig -> foreach -> " + FormName + " Form No: " + dr["PROCESSID"].ToString() + "  |  hata: " + ex.ToString());
+                        dal.InsertServiceErrorLog(dr["PROCESSID"].ToString(), PrID, ex.ToString(), FormName, "0");
+                        GetDeleteProcess(PrID, dr["POSITION"].ToString());
+                    }
+                    finally { con.Close(); }
+                }
+            }
+        }
+
+
+
+
+        public void Trig_RMIS_Baslat(string FormName)
+        {
+            CommonDAL dal = new CommonDAL();
+            DataTable dt = dal.Get_RMIS_TrigRecords();
+
+            log.WriteLine("DEBUG", string.Format("[{0}]Get_RMIS_TrigRecords SP to EBA5 row count: {1}", FormName, dt.Rows.Count));
+
+
+            if (dt.Rows.Count > 0)
+            {
+                eBAConnection con = new eBAConnection();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string PrID = "";
+
+                    try
+                    {
+                        if (dal.GetServisErrorControl(dr["ID"].ToString(), FormName) == true)
+                        {
+                            #region Kayıt Başlat
+                            con = new eBAConnection();
+                            con.Server = StaticVar.ServerName;
+                            con.UserID = StaticVar.UserName;
+                            con.Password = StaticVar.PassWord;
+                            con.CommandTimeout = 500;
+                            con.Open();
+
+                            con.Impersonate(dr["CD_REQUEST"].ToString(), ImpersonationStatusType.Hidden);
+
+                            WorkflowManager mgr = con.WorkflowManager;
+                            WorkflowProcess proccess = mgr.CreateProcess(FormName);
+
+                            proccess.Parameters.Add("V_AKISBASLATAN", dr["CD_REQUEST"].ToString());
+                            proccess.Parameters.Add("V_UNIQID", dr["ID"].ToString());
+
+
+                            proccess.Parameters.Update();
+                            proccess.Start();
+
+                            PrID = proccess.ProcessId.ToString();
+
+
+                            log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı pid: " + PrID);
+                            dal.Set_RMIS_FORM_Update(Convert.ToInt32(dr["ID"].ToString()), PrID);
+                            log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı form update başarılı.");
+
+                            dal.Set_RMIS_STATU_Update(Convert.ToInt32(dr["ID"].ToString()), PrID, "B", dr["CD_REQUEST"].ToString());
+                            log.WriteLine("DEBUG", "[" + FormName + "]süreç başladı statu update başarılı.");
+
+                            #endregion
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteLine("ERROR", "[" + FormName + "] Trig -> foreach -> " + FormName + " Form No: " + dr["ID"].ToString() + "  |  hata: " + ex.ToString());
+                        dal.InsertServiceErrorLog(dr["ID"].ToString(), PrID, ex.ToString(), FormName, "0");
+
+                        GetDeleteProcess(PrID, dr["CD_REQUEST"].ToString());
+
+                    }
+                    finally { con.Close(); }
+
+                }
+            }
+        }
+
 
 
 

@@ -148,6 +148,8 @@ namespace Eba5WinServices
                 if (StaticVar.YPKTOFBaslat) dt.Trig_SPIDS_YPKTOF_Baslat("YPKTOF");
                 if (StaticVar.N_GGMGFBaslat) dt.Trig_N_GGMGFBaslat("N_GGMGF"); 
                 if (StaticVar.N_ZIYRANBaslat) dt.Trig_N_ZIYRANBaslat("N_ZIYRAN");
+                if (StaticVar.UYDGDAContinueProcess) dt.Trig_UYDGDAContinueProcess("UYDGDACNT");
+                if (StaticVar.RMISBaslat) dt.Trig_RMIS_Baslat("RMIS");
 
                 // onaylanan red olunan belgeleri alıp IATS sistemine update eder..
                 dt.receiveFromEbaAll("TE");// terkin

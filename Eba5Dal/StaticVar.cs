@@ -74,6 +74,8 @@ namespace Eba5Dal
         public static bool YPKTOFBaslat = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["YPKTOFBaslat"].ToString());
         public static bool N_GGMGFBaslat = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["N_GGMGFBaslat"].ToString());
         public static bool N_ZIYRANBaslat = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["N_ZIYRANBaslat"].ToString());
+        public static bool UYDGDAContinueProcess = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["UYDGDAContinueProcess"].ToString());
+        public static bool RMISBaslat = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["RMISBaslat"].ToString());
 
 
 
